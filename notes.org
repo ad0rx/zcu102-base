@@ -96,7 +96,6 @@ Initial PL Components:
 3. AXI UARTLite - for debug
 4. System Reset - from SW20, reset the PL
 5. JTAG to AXI  - for debug from Vivado Hardware Manager
-6. ILA          - for debug from Vivado Hardware Manager
 
 * FSBL
 

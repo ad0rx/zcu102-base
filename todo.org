@@ -5,4 +5,5 @@
 2. Build FSBL project
    1. Debug
    2. Test
-   3.
+   3. how to build without SDK?
+3. JTAG to AXI Tcl script
