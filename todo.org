@@ -1,0 +1,8 @@
+#+TITLE: TODO
+
+1. Build base vivado project
+   1. Test to make sure LEDs and JTAG work
+2. Build FSBL project
+   1. Debug
+   2. Test
+   3.

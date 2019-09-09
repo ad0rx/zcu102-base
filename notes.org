@@ -1,0 +1,125 @@
+#+TITLE: ZCU102 Base Support Image
+
+* Revision History
+
+0 Initial Creation for 2019.1 tools
+
+* Overview
+
+Simple project that boots into u-boot from qspi and then loads the
+FPGA and boots the base Linux image.
+
+Support for loading a new Linux image from the TFTP server via a
+custom u-boot command. Also support for including a new bitfile or
+not.
+
+The base bitstream, FSBL, u-boot, and base Linux image will reside in
+QSPI for fast system boot to a minimal useable configuration. This
+minimal configuration will support running apps on the R5, and
+communicating via SSH.
+
+Included in the base design are SDK projects for a FreeRTOS
+application for R5-0 and a standalone application for R5-1.
+
+Also a standalone application and FreeRTOS application for the A53.
+
+* Goals
+
+1. Provide quick way to run designs on the ZCU102 without having to
+   mess with SD card, boot switches, or slow JTAG connection
+2. Quick load of bitstream into PL over Ethernet for quick debug from
+   hardware manager without needing to load the PL via JTAG
+3. Quick turn for developing R5 applications and loading via OpenAMP
+4. Quick turn for A53 standalone or FreeRTOS
+5. Quick turn for PetaLinux
+
+* Supported Development Flow
+
+** Vivado Hardware Debug
+
+1. Create the new design and save bitfile to TFTP boot area
+2. Turn on the board and boot to u-boot
+3. Manually halt u-boot
+4. Use custom command to fetch bitstream and load the PL
+5. Connect to the board from Vivado Hardware Manager and debug
+6. Can r/w memory from u-boot as well
+
+** A53 Standalone / FreeRTOS
+
+1. Create the standalone application and save to TFTP boot area
+2. Turn on board
+3. Manually halt at u-boot prompt
+4. Issue custom command to fetch standalone elf file and handoff
+
+** Base Linux
+
+1. Turn on the board
+2. Board boots into base Linux environment
+3. Base FreeRTOS on R5-0
+4. Base Standalone on R5-1
+5. Can load and run new apps on the R5, loaded from TFTP from Linux
+   prompt
+6.
+
+** Linux
+
+1. Create a new PetaLinux image and save to TFTP boot area
+2. Turn on the board, and board boots that new Linux image, including
+   system.bit
+
+** R5 Application
+
+1. Develop R5 application(s) and save to TFTP boot area
+2. Turn on the board
+3. Board boots Base Linux image
+4. Linux starts RPU and runs the R5 application
+5. New R5 application can be loaded over SSH and then run on the R5
+6. Can connect to running RPU for SDK debug
+
+* Issues
+
+1. FSBL relies on hardware configuration
+
+* Base Hardware
+
+Create a hardware design that includes a bitstream with minimal
+components in the PL. This will be included in QSPI and provide
+support to the PL as needed from u-boot.
+
+If booting into Linux, u-boot will pull a new bitstream from the TFTP
+server and load the PL with the updated bitstream before booting Linux.
+
+Initial PL Components:
+
+1. AXI Timer - provide a crude data source
+2. AXI GPIO  - Access to LEDs
+3. AXI UARTLite - for debug
+4. System Reset - from SW20, reset the PL
+5. JTAG to AXI  - for debug from Vivado Hardware Manager
+6. ILA          - for debug from Vivado Hardware Manager
+
+* FSBL
+
+UART: PS-0
+
+Generated from the base Vivado project to configure the system and
+DDR. Will load u-boot and handoff.
+
+Debug enabled for easy troubleshooting and status info
+
+Separate SDK project.
+
+* u-boot
+
+UART: PS-0
+
+Custom boot command to determine what to do
+
+1. Load PL from TFTP
+2. Boot Linux
+3. Stay in u-boot prompt
+4. Custom commands to ease / automate / debug
+
+* Base Linux
+
+UART: PS-1(?)
