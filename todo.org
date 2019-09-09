@@ -7,3 +7,6 @@
    2. Test
    3. how to build without SDK?
 3. JTAG to AXI Tcl script
+   1. Write LEDs
+   2. Write UART = packet Hello, World
+   3. Read Timer
