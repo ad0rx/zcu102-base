@@ -13,7 +13,9 @@ create_hw_axi_txn write_gpio_txn_AA [get_hw_axis hw_axi_1] -type WRITE -address 
 for {set i 0} {$i < 10} {incr i} {
 
     run_hw_axi write_gpio_txn_55
+    after 250
     run_hw_axi write_gpio_txn_AA
+    after 250
 
 }
 
