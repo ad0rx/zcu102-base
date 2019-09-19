@@ -1,5 +1,12 @@
 #+TITLE: ZCU102 Base Support Image
 
+Currently stuck because I can't build a working FSBL from SDK
+it works when I debug from SDK
+When I create a boot.bin, won't boot from QSPI or SD
+I can use the pre-build image from petalinux 2019.1 bsp and that works
+from SD card.
+
+
 * Revision History
 
 0 Initial Creation for 2019.1 tools
@@ -105,12 +112,30 @@ Generated from the base Vivado project to configure the system and
 DDR. Will load u-boot and handoff.
 
 Debug enabled for easy troubleshooting and status info
+FSBL_DEBUG_DETAILED
 
 Separate SDK project.
 
 * u-boot
 
 UART: PS-0
+
+Separate project, needs to be hosted on Linux VM
+https://github.com/Xilinx/u-boot-xlnx.git
+Built in VM configured with configure-vm-v2019.1.sh
+git clone --depth 1 https://github.com/Xilinx/u-boot-xlnx.git
+configs/xilinx_zynqmp_zcu102_rev1_0_defconfig
+include/configs/xilinx_zynqmp.h CONFIG_EXTRA_ENV_BOARD_SETTINGS
+
+make xilinx_zynqmp_zcu102_rev1_0_defconfig
+ARCH=arm CROSS_COMPILE=aarch64-none-elf- make
+
+edit tools/version.h
+#include "../include/version.h"
+
+exec bootgen -arch zynqmp -image boot.bif -o boot.bin
+x8-dual-parallel for SDK program flash config
+
 
 Custom boot command to determine what to do
 

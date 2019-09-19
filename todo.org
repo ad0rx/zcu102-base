@@ -1,12 +1,19 @@
 #+TITLE: TODO
 
-1. Build base vivado project
-   1. Test to make sure LEDs and JTAG work
-2. Build FSBL project
-   1. Debug
-   2. Test
+x1. Build base vivado project
+x   1. Test to make sure LEDs and JTAG work
+x2. Build FSBL project
+x   1. Debug
+x   2. Test
    3. how to build without SDK?
-3. JTAG to AXI Tcl script
-   1. Write LEDs
-   2. Write UART = packet Hello, World
-   3. Read Timer
+x3. JTAG to AXI Tcl script
+x   1. Write LEDs
+x   2. Write UART = packet Hello, World
+   1. Build u-boot
+      1. test boot commands
+      2. add custom commands
+      3. git modified files
+Fix DDR issue with this board and new FSBL see AR
+ = the AR is for 2018.3, supposed fixed in 2019.1?
+Fixure out how to add base device tree for uboot or tell to ignore
+Probably need PMU firmware?
