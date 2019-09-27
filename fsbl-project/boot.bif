@@ -3,5 +3,5 @@ the_ROM_image:
 {
 	[bootloader, destination_cpu=a53-0]D:\bwhitlock\projects\2019.1\zcu102-base\fsbl-project\base-fsbl\Debug\base-fsbl.elf
 	[destination_device = pl]D:\bwhitlock\projects\2019.1\zcu102-base\fsbl-project\base-fsbl-hw\base_bd_wrapper.bit
-	[destination_cpu = a53-0]D:\bwhitlock\projects\2019.1\zcu102-base\u-boot-project\u-boot.elf
+	[load=0x8000000]D:\bwhitlock\projects\2019.1\zcu102-base\u-boot-project\u-boot.elf
 }
