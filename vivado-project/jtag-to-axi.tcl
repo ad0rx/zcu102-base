@@ -19,7 +19,7 @@ for {set i 0} {$i < 10} {incr i} {
 
 }
 
-set STRING1 {H e l l o , W o r l d ! "\r" "\n"}
+set STRING1 {H e l l o , " " W o r l d ! "\r" "\n"}
 foreach x $STRING1 {	;# Now loop and print...
     set c [format %8.8X [scan $x %c]]
     create_hw_axi_txn write_uart_txn [get_hw_axis hw_axi_1] -type WRITE -address $UART_TX -len 1 -data $c -force
