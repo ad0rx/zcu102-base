@@ -1,11 +1,18 @@
 #+TITLE: ZCU102 Base Support Image
 
-Currently stuck because I can't build a working FSBL from SDK
-it works when I debug from SDK
-When I create a boot.bin, won't boot from QSPI or SD
-I can use the pre-build image from petalinux 2019.1 bsp and that works
-from SD card.
+Currently working on getting a working u-boot
+it is barfing at boot while looking for a dtb
 
+No valid device tree binary found - please append one to U-Boot binary, use u-boot-dtb.bin or define CONFIG_OF_EMBED. For sandbox, use -d <file.dtb>
+initcall sequence 0000000008093d48 failed at call 0000000008089960 (err=-1)
+### ERROR ### Please RESET the board ###
+
+Stuck here, can't seem to get a valid u-boot built
+
+Try to trace the build of u-boot when done in PetaLinux - of course
+that bsp doesn't work on current VM...ugh Maybe start with a 16.04 VM build?
+
+look into mkimage
 
 * Revision History
 
@@ -120,6 +127,8 @@ Separate SDK project.
 
 UART: PS-0
 
+https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842557/Debug+U-boot
+
 Separate project, needs to be hosted on Linux VM
 https://github.com/Xilinx/u-boot-xlnx.git
 Built in VM configured with configure-vm-v2019.1.sh
@@ -128,10 +137,14 @@ configs/xilinx_zynqmp_zcu102_rev1_0_defconfig
 include/configs/xilinx_zynqmp.h CONFIG_EXTRA_ENV_BOARD_SETTINGS
 
 make xilinx_zynqmp_zcu102_rev1_0_defconfig
+export PATH=/app/petalinux/2019.1/tools/xsct/gnu/aarch64/lin/aarch64-none/bin:$PATH
 ARCH=arm CROSS_COMPILE=aarch64-none-elf- make
+cp u-boot u-boot.elf
 
 edit tools/version.h
 #include "../include/version.h"
+add CONFIG_OF_EMBED=y to xilinx_zynqmp_zcu102_rev1_0_defconfig
+  That adds a base dtb to the elf image
 
 exec bootgen -arch zynqmp -image boot.bif -o boot.bin
 x8-dual-parallel for SDK program flash config
@@ -143,6 +156,11 @@ Custom boot command to determine what to do
 2. Boot Linux
 3. Stay in u-boot prompt
 4. Custom commands to ease / automate / debug
+
+* boot.bin
+
+see boot.bif
+need to specify target processor for each elf
 
 * Base Linux
 
