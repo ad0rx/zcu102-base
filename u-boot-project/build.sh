@@ -3,7 +3,7 @@
 # This is a build script to build u-boot from sources on a Linux VM
 # The script is invoked from within the VM, and automatically patches
 # the u-boot source. This is used because I can't easily build u-boot
-# on a Win host, and the VM can't build on a shared folder.
+# on a Win host, and the VM can't build on a shared folder.c
 #
 #
 
