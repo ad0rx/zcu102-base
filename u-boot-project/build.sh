@@ -21,7 +21,7 @@ UBOOT_BUILD_DIR="/mnt/petalinux_projects/u-boot-${UBOOT_BRANCH}"
 echo; echo "Running..."; echo
 
 # Checkout the tag from github to local build dir
-#git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
+git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
 
 # Configure for zcu102
 # Copy customized boot command
