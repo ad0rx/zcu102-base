@@ -429,7 +429,7 @@
 
 #ifdef CONFIG_BOOTCOMMAND
 #undef CONFIG_BOOTCOMMAND
-#define CONFIG_BOOTCOMMAND "dhcp 0x10000000 192.168.0.24:image.ub"
+#define CONFIG_BOOTCOMMAND "dhcp 0x10000000 192.168.0.24:image.ub && bootm"
 #endif
 
 #endif  /* _CONFIG_CMD_DISTRO_BOOTCMD_H */
