@@ -141,8 +141,11 @@ add CONFIG_OF_EMBED=y to xilinx_zynqmp_zcu102_rev1_0_defconfig
   That adds a base dtb to the elf image
 
 exec bootgen -arch zynqmp -image boot.bif -o boot.bin
-program_flash -f BOOT.BIN -flash_type qspi-x8-dual_parallel -url
-tcp:192.168.0.23:3121 -fsbl <VALID FSBL>
+
+Program Flash from VM:
+  1. Disable VPN
+  2. program_flash -f BOOT.BIN -flash_type qspi-x8-dual_parallel -url
+     tcp:192.168.0.23:3121 -fsbl <VALID FSBL>
 
 x8-dual-parallel for SDK program flash config
 
