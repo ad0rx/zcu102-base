@@ -25,7 +25,7 @@ git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BU
 
 # Configure for zcu102
 # Copy customized boot command
-cp config_distro_bootcmd.h "${UBOOT_BUILD_DIR}/include/configs/"
+cp config_distro_bootcmd.h "${UBOOT_BUILD_DIR}/include/"
 
 pushd "${UBOOT_BUILD_DIR}"
 make xilinx_zynqmp_zcu102_rev1_0_defconfig
