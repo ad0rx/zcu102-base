@@ -5,5 +5,5 @@ the_ROM_image:
 	[destination_device=pl]/media/sf_projects/zcu102-base/fsbl-project/base-fsbl-hw/base_bd_wrapper.bit
 	[destination_cpu=pmu]/mnt/petalinux_projects/plnx1/pre-built/linux/images/pmufw.elf
 	[destination_cpu=a53-0, exception_level=el-3, trustzone]/mnt/petalinux_projects/plnx1/pre-built/linux/images/bl31.elf
-	[destination_cpu=a53-0, exception_level=el-2]/mnt/petalinux_projects/u-boot-v2019.1/u-boot.elf
+	[destination_cpu=a53-0, exception_level=el-2]/mnt/petalinux_projects/u-boot-xilinx-v2019.1/u-boot.elf
 }
