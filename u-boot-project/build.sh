@@ -18,14 +18,19 @@ UBOOT_REPO="https://github.com/Xilinx/u-boot-xlnx.git"
 # Must be to a VM drive, not shared folder
 UBOOT_BUILD_DIR="/mnt/petalinux_projects/u-boot-${UBOOT_BRANCH}"
 
+# Path to a directory to hold boot collateral
+# used in boot.bif file to create BOOT.BIN
+BOOT_DIR="/media/sf_projects/zcu102-base/boot"
+
 echo; echo "Running..."; echo
 
 # Checkout the tag from github to local build dir
-git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
+#git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
 
 # Configure for zcu102
 # Copy customized boot command
 cp config_distro_bootcmd.h "${UBOOT_BUILD_DIR}/include/"
+cp xilinx_zynqmp_zcu102_rev1_0_defconfig "${UBOOT_BUILD_DIR}/configs/"
 
 pushd "${UBOOT_BUILD_DIR}"
 make xilinx_zynqmp_zcu102_rev1_0_defconfig
@@ -35,5 +40,8 @@ source "${PETALINUX_SETTINGS}"
 
 # Build u-boot
 ARCH=aarch64 CROSS_COMPILE=aarch64-none-elf- make
+
+# Copy elf to boot dir
+cp u-boot.elf "${BOOT_DIR}/u-boot.elf"
 
 echo; echo "Done"; echo
