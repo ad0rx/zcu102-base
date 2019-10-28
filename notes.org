@@ -1,18 +1,10 @@
 #+TITLE: ZCU102 Base Support Image
 
-Currently working on getting a working u-boot
-it is barfing at boot while looking for a dtb
-
-No valid device tree binary found - please append one to U-Boot binary, use u-boot-dtb.bin or define CONFIG_OF_EMBED. For sandbox, use -d <file.dtb>
-initcall sequence 0000000008093d48 failed at call 0000000008089960 (err=-1)
-### ERROR ### Please RESET the board ###
-
-Stuck here, can't seem to get a valid u-boot built
-
-Try to trace the build of u-boot when done in PetaLinux - of course
-that bsp doesn't work on current VM...ugh Maybe start with a 16.04 VM build?
-
-look into mkimage
+add u-boot to project dir on windows
+build u-boot from xsct
+need to edit boot command in u-boot
+build base linux
+setup tftp
 
 * Revision History
 
@@ -125,6 +117,7 @@ Separate SDK project.
 
 * u-boot
 
+v2019.1
 UART: PS-0
 
 https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842557/Debug+U-boot
@@ -135,6 +128,7 @@ Built in VM configured with configure-vm-v2019.1.sh
 git clone --depth 1 https://github.com/Xilinx/u-boot-xlnx.git
 configs/xilinx_zynqmp_zcu102_rev1_0_defconfig
 include/configs/xilinx_zynqmp.h CONFIG_EXTRA_ENV_BOARD_SETTINGS
+include/config_distro_bootcmd.h
 
 make xilinx_zynqmp_zcu102_rev1_0_defconfig
 export PATH=/app/petalinux/2019.1/tools/xsct/gnu/aarch64/lin/aarch64-none/bin:$PATH
@@ -147,8 +141,10 @@ add CONFIG_OF_EMBED=y to xilinx_zynqmp_zcu102_rev1_0_defconfig
   That adds a base dtb to the elf image
 
 exec bootgen -arch zynqmp -image boot.bif -o boot.bin
-x8-dual-parallel for SDK program flash config
+program_flash -f BOOT.BIN -flash_type qspi-x8-dual_parallel -url
+tcp:192.168.0.23:3121 -fsbl <VALID FSBL>
 
+x8-dual-parallel for SDK program flash config
 
 Custom boot command to determine what to do
 
@@ -161,6 +157,7 @@ Custom boot command to determine what to do
 
 see boot.bif
 need to specify target processor for each elf
+need to have atf running for u-boot to work
 
 * Base Linux
 
