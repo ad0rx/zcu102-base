@@ -7,10 +7,11 @@
 #
 #
 
-PROJWS="/media/sf_projects/zcu102-base"
-
-# Used to get the toolchain
-PETALINUX_SETTINGS="/app/petalinux/2019.1/settings.sh"
+if [ -z ${PROJWS} ]
+then
+    echo "Please source the project setup file"
+    exit
+fi
 
 # The tag to use for checking out from github
 UBOOT_BRANCH="xilinx-v2019.1"
@@ -20,14 +21,10 @@ UBOOT_REPO="https://github.com/Xilinx/u-boot-xlnx.git"
 # Must be to a VM drive, not shared folder
 UBOOT_BUILD_DIR="/mnt/petalinux_projects/u-boot-${UBOOT_BRANCH}"
 
-# Path to a directory to hold boot collateral
-# used in boot.bif file to create BOOT.BIN
-BOOT_DIR="/media/sf_projects/zcu102-base/boot"
-
 echo; echo "Running..."; echo
 
 # Checkout the tag from github to local build dir
-git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
+#git clone --single-branch --branch "${UBOOT_BRANCH}" "${UBOOT_REPO}" "${UBOOT_BUILD_DIR}"
 
 # Configure for zcu102
 # Copy customized boot command
