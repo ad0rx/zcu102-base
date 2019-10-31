@@ -1,0 +1,12 @@
+# Source this file
+#
+
+export MOUNT="/media/sf_projects"
+export PROJWS="${MOUNT}/zcu102-base"
+
+# Path to a directory to hold boot collateral
+# used in boot.bif file to create BOOT.BIN
+export BOOT_DIR="${PROJWS}/boot"
+
+# Used to get the toolchain
+export PETALINUX_SETTINGS="/app/petalinux/2019.1/settings.sh"
