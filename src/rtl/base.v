@@ -148,40 +148,77 @@ module base
    (* X_INTERFACE_PARAMETER = "POLARITY ACTIVE_LOW" *)
    output			aux_resetn;
 
+   // Write Address Signals
    reg [P_ADDR_WIDTH-1:0]	write_addr;
    reg				s_awready_reg;
    reg				s_awvalid_q;
    reg [P_ADDR_WIDTH-1:0]	s_awaddr_q;
 
+   // Write Data Signals
+   reg [P_DATA_WIDTH-1:0]	write_data;
+   reg				s_wvalid_q;
+   reg				s_wready_reg;
+   reg [P_DATA_WIDTH-1:0]	s_wdata_q;
+   //reg [(P_DATA_WIDTH/8)-1:0]		s_wstrb_q;
+
+   // Write Response
+   reg				s_bvalid_reg;
+   reg				s_bready_q;
+   reg [1:0]			s_bresp_reg;
+
+
    //top_level_assignments
    assign s_awready = s_awready_reg;
+   assign s_wready  = s_wready_reg;
+   assign s_bvalid  = s_bvalid_reg;
+   assign s_bresp   = s_bresp_reg;
 
-   //static_flops
+   // Write Address
    always @ (posedge ACLK)
      begin
+
+	s_awvalid_q   <= s_awvalid;
+	s_awaddr_q    <= s_awaddr;
 	s_awready_reg <= 1'b1;
-     end
 
-   always @ (posedge ACLK)
-
-     //if (ARESETN == 0) begin
-     //   write_addr    <= 0;
-     //   s_awvalid_reg <= 0;
-
-     //end else
-     begin
-
-	s_awvalid_q <= s_awvalid;
-	s_awaddr_q  <= s_awaddr;
-
-	if (s_awvalid_q == 1'b1) begin
+	if (s_awvalid_q == 1'b1)
+	  begin
 	   write_addr <= s_awaddr_q;
 	end
 
      end
 
+   // Write Data
+   // need to update for data to go into proper register
+   always @ (posedge ACLK)
+     begin
 
+	s_wvalid_q   <= s_wvalid;
+	s_wdata_q    <= s_wdata;
+	s_wready_reg <= 1'b1;
 
+	if (s_wvalid_q == 1'b1)
+	  begin
+	     write_data <= s_wdata_q;
+	  end
 
+     end
+
+   // Write Response
+   always @ (posedge ACLK)
+     begin
+
+	s_bready_q  <= s_bready;
+	s_bresp_reg <= 2'b00;
+
+	if (s_wvalid_q == 1'b1 && s_wready_reg == 1'b1)
+	  begin
+	     s_bvalid_reg <= 1'b1;
+	  end else if (s_bready == 1'b1)
+	    begin
+	       s_bvalid_reg <= 1'b0;
+	    end
+
+     end
 
 endmodule // base_ip

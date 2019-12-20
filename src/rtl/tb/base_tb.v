@@ -50,25 +50,50 @@ module base_tb;
       input [P_ADDR_WIDTH-1:0] write_address;
       input [P_DATA_WIDTH-1:0] write_data;
 
+      reg [1:0]		       resp;
+
       begin
 
 	 // Set the address bus
 	 s_awaddr = write_address;
 
-	 // Set the VALID
+	 // Set the data bus
+	 s_wdata  = write_data;
+
+	 // Set the address VALID
 	 s_awvalid = 1'b1;
 
-	 // Wait for READY
-	 wait (s_awready == 1'b1);
+	 // Set data valid
+	 s_wvalid  = 1'b1;
 
-	 // Wait a cycle, data transfer occurs here
+	 // Set response ready
+	 s_bready  = 1'b1;
+
+	 // Wait for READYs from slave
+	 wait (s_awready == 1'b1 && s_wready == 1'b1);
+
+	 // Wait a cycle, address transfer occurs here
 	 @(posedge ACLK);
 
-	 // De-assert Valid
+	 // De-assert Valids
 	 s_awvalid = 1'b0;
+	 s_wvalid  = 1'b0;
 
-	 // Clear data bus
+	 // Wait for response valid
+	 wait (s_bvalid == 1'b1);
+	 @(posedge ACLK);
+
+	 // read the response
+	 resp = s_bresp;
+
+	 @(posedge ACLK);
+
+	 // De-assert Ready
+	 s_bready = 1'b0;
+
+	 // Clear address and data buses
 	 s_awaddr = 0;
+	 s_wdata  = 0;
 
       end
    endtask // txn
@@ -99,6 +124,9 @@ module base_tb;
       s_awaddr  = {P_ADDR_WIDTH{1'b0}};
       s_awvalid = 1'b0;
       s_awprot  = 3'b0;
+      s_wvalid  = 1'b0;
+      s_wdata   = 1'b0;
+      s_bready  = 1'b0;
 
 
       // Wait for Reset De-assert
