@@ -214,7 +214,7 @@ module base
 	if (s_wvalid_q == 1'b1 && s_wready_reg == 1'b1)
 	  begin
 	     s_bvalid_reg <= 1'b1;
-	  end else if (s_bready == 1'b1)
+	  end else if (s_bready_q == 1'b1)
 	    begin
 	       s_bvalid_reg <= 1'b0;
 	    end

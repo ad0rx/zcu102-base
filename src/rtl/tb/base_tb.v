@@ -1,6 +1,6 @@
 // Simple directed test bench for the edge to level module
 //
-`timescale 1ns/1ps
+//`timescale 1ns/1ps
 
 module base_tb;
 
@@ -86,7 +86,7 @@ module base_tb;
 	 // read the response
 	 resp = s_bresp;
 
-	 @(posedge ACLK);
+	 //@(posedge ACLK);
 
 	 // De-assert Ready
 	 s_bready = 1'b0;
@@ -126,6 +126,7 @@ module base_tb;
       s_awprot  = 3'b0;
       s_wvalid  = 1'b0;
       s_wdata   = 1'b0;
+      s_wstrb   = {P_DATA_WIDTH/8{1'b1}};
       s_bready  = 1'b0;
 
 
@@ -136,7 +137,10 @@ module base_tb;
 	end
 
       // Transactions
-      axi4_lite_write_txn (8'hFF, 32'hDEAD_BEEF);
+      axi4_lite_write_txn (8'h00, 32'h0000_0001);
+      axi4_lite_write_txn (8'h01, 32'h0000_0002);
+      axi4_lite_write_txn (8'h02, 32'h0000_0003);
+      axi4_lite_write_txn (8'h03, 32'h0000_0004);
    end
 
    base
